@@ -18,20 +18,54 @@ const App = () => {
 
       const [selected, setSelected] = useState(0)
 
+      const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+
   const handleNextClick = () => {
 
     const randomIndex =
     Math.floor(Math.random() * anecdotes.length);
     setSelected(randomIndex);
   }
+
+  const handleVoteClick = () => {
+    const votesCopy = [...votes];
+    votesCopy[selected] += 1;
+    setVotes(votesCopy);
+  }
+
+
    
 
   return (
     <div>
-      {anecdotes[selected]}
-      <section>
-      <Button handleClick={handleNextClick} text='next anecdote' />
-      </section>
+      <h1>Current Anecdote</h1>
+
+      <div>
+        <div>{anecdotes[selected]}</div>
+        <div>has {votes[selected]} votes</div>
+        <button onClick={handleVoteClick}>Vote</button>
+        <button onClick={handleNextClick}>Next anecdote</button>
+      </div>
+      
+      <h2>Programming Anecdotes</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Anecdote</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {anecdotes.map((anecdote, index) => (
+            <tr key={index}>
+              <td>{anecdote}</td>
+              <td>{votes[index]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
     </div>
   )
 }
